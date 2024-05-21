@@ -1,0 +1,147 @@
+
+[general]
+
+# 代理延迟测速 URL 
+# 对指定的网址进行相应测试，以确认节点的可用性
+server_check_url=http://cp.cloudflare.com/generate_204
+
+#解析器作者 @XIAO_KOP 
+resource_parser_url=https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/resource-parser.js
+
+#IP_API 改自 @XIAO_KOP
+geo_location_checker=http://ip-api.com/json/?lang=zh-CN, https://raw.githubusercontent.com/limbopro/QuantumultX/master/Scripts/IP_API.js
+
+# DNS排除列表
+dns_exclusion_list=*.localnetwork.uop, *.qq.com, qq.com
+
+# 下列表中内容将不经过 QuantumultX 的处理
+# excluded_routes=192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, 17.0.0.0/8
+# icmp_auto_reply=true
+
+
+[dns]
+no-ipv6
+# DoH服务器(DNS over HTTPS)以加密的HTTPS协议进行DNS解析请求，避免原始DNS协议中用户的DNS解析请求被窃听或者修改的问题（例如中间人攻击）来达到保护用户隐私的目的
+# 设置DoH服务器后，所有其他常规DNS服务器设置将被忽略；当设置了多个DoH服务器时，只会使用第一个；当使用的 DoH服务器不是基于HTTP/2时，DoH将被暂时禁用。
+# 阿里 DoH
+# doh-server=https://dns.alidns.com/dns-query
+# 同时使用多个DoH服务器(Tf功能
+# 阿里,DNS.SB,阿里,红鱼,IIJ
+# doh-server=https://dns.alidns.com/dns-query, https://doh.dns.sb/dns-query, https://dns.alidns.com/dns-query, https://rubyfish.cn/dns-query, https://public.dns.iij.jp/dns-query
+# 自定义DNS服务器
+# 腾讯云DNSPod DNS
+server=119.29.29.29
+server=119.28.28.28
+# 阿里 AliDNS
+server=223.5.5.5
+# 114 DNS
+server=114.114.114.114
+# 制定域名解析 dns
+server=/*.taobao.com/223.5.5.5
+server=/*.tmall.com/223.5.5.5
+server=/*.alipay.com/223.5.5.5
+server=/*.aliyun.com/223.5.5.5
+server=/*.jd.com/119.28.28.28
+server=/*.qq.com/119.28.28.28
+server=/*.tencent.com/119.28.28.28
+server=/*.weixin.com/119.28.28.28
+server=/*.bilibili.com/119.29.29.29
+server=/*.netease.com/119.29.29.29
+server=/*testflight.apple.com/23.76.66.98
+
+[policy]
+## 策略组
+## 将分流规则传递过来的网络请求进行分发
+
+### 自动选择最优节点
+url-latency-benchmark=HK_Auto, server-tag-regex=(?=.*(港|HongKong|Kong|HK|(?i)Hong))^((?!(台|日|韩|新|美)).)*$, check-interval=600, tolerance=0, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/HK02.png
+url-latency-benchmark=US_Auto, server-tag-regex=(?=.*(美|美国|美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|🇺🇸|US|us|(?i)States|American))^((?!(港|台|日|韩|新)).)*$, check-interval=600, tolerance=0, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/US.png
+url-latency-benchmark=SG_Auto, server-tag-regex=(?=.*(新加坡|狮|獅|SG|(?i)Singapore))^((?!(港|台|日|韩|美)).)*$, check-interval=600, tolerance=0, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/SG.png
+
+
+
+### 服务器按地区分组策略
+static=US, server-tag-regex=(?=.*(美|美国|美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|🇺🇸|US|us|(?i)States|American))^((?!(港|台|日|韩|新)).)*$, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/US.png
+static=HK, server-tag-regex=HK|HongKong|香港|港|🇭🇰️|Hongkong|Hong, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/HK02.png
+static=TW, server-tag-regex=台|台湾|TW, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/TW.png
+static=JP, server-tag-regex= 日|日本|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|JP, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/JP.png
+static=SG, server-tag-regex=(?=.*(新加坡|狮|獅|SG|(?i)Singapore))^((?!(港|台|日|韩|美)).)*$, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/SG.png
+static=DE, server-tag-regex=德国, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/DE.png
+
+
+static=YouTubeMusic, US_Auto, US, direct, proxy, reject, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube_Music.png
+static=YouTube, US_Auto, US, direct, proxy, reject, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png
+static=WeChat, US_Auto, HK_Auto, US, HK, TW, JP, SG, DE, SG_Auto, proxy, direct, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/WeChat.png
+static=Speedtest, US_Auto, HK_Auto, US, HK, TW, JP, SG, DE, SG_Auto, proxy, direct, img-url=https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Speedtest.png
+
+static=广告拦截, reject, proxy, direct, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Advertising.png
+static=苹果服务, direct, proxy,  img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png
+static=AI Platforms, proxy, direct, US_Auto, US, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png
+static=Final, US_Auto, HK_Auto, US, HK, TW, JP, SG, DE, SG_Auto, proxy, direct, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Rocket.png
+
+[server_remote]
+## 服务器节点
+https://ding.dingdian.online/link/DYBhnXboYJRi5fPm?list=quantumultx, tag=KULI, img-url=chevron.left.to.line.system, update-interval=172800, opt-parser=false, inserted-resource=true, enabled=true
+
+
+[filter_remote]
+## 远程分流规则订阅
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/YouTubeMusic/YouTubeMusic.list, tag=YouTubeMusic, update-interval=172800, opt-parser=false, enabled=true
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/YouTube/YouTube.list, tag=YouTube, update-interval=172800, opt-parser=true, enabled=true
+https://limbopro.com/Adblock4limbo.list, tag=毒奶特供(去网页广告计划), force-policy=广告拦截, enabled=true
+https://raw.githubusercontent.com/DivineEngine/Profiles/master/Quantumult/Filter/Extra/Apple/BlockiOSUpdate.list, tag=禁止🚫🍎更新, force-policy=REJECT, update-interval=86400, opt-parser=false, enabled=false
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/Apple/Apple.list, tag=苹果服务, force-policy=苹果服务, enabled=true
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/OpenAI/OpenAI.list, tag=AI Platforms, force-policy=AI Platforms, enabled=true
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/WeChat/WeChat.list, tag=WeChat, force-policy=WeChat, update-interval=86400, opt-parser=false, enabled=true
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/Speedtest/Speedtest.list, tag=Speedtest, force-policy=Speedtest, update-interval=86400, opt-parser=false, enabled=true
+
+[rewrite_remote]
+## 重写的作用主要是：解锁软件会员以及去除烦人的广告，这是最常用
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/QuantumultX/AllInOne/AllInOne.conf, tag=Block Advertising, update-interval=172800, opt-parser=false, enabled=true
+
+[server_local]
+# shadowsocks=example.com:80, method=aes-128-gcm, password=pwd, obfs=ws, fast-open=false, tag=无用节点1
+# shadowsocks=example.com:80, method=aes-128-gcm, password=pwd, obfs=ws, fast-open=false, tag=无用节点2
+
+[filter_local]
+host, www.google.com, US_Auto
+host, chatgpt.com, US_Auto
+# 本地分流规则:相同规则下本地规则优先生效
+
+# > 一些比较容易忽视的分流
+host-suffix, kuwo.cn, direct
+host, ad.12306.cn, direct
+host, gg.caixin.com, direct
+host, sdkapp.uve.weibo.com, direct
+host-suffix, u3.ucweb.com, reject
+# > 高德地图 去广告
+host, amdc.m.taobao.com, reject
+
+# > 知乎AD屏蔽
+DOMAIN,118.89.204.198,REJECT
+DOMAIN-KEYWORD,118.89.204.198,REJECT
+IP-CIDR,118.89.204.198/32,REJECT
+DOMAIN,appcloud2.in.zhihu.com,REJECT
+HOST,mqtt.zhihu.com,reject
+HOST,sugar.zhihu.com,reject
+USER-AGENT,AVOS*,REJECT
+
+host-suffix, googleapis.com, HK_Auto
+geoip, cn, direct
+ip-cidr, 10.0.0.0/8, direct
+ip-cidr, 127.0.0.0/8, direct
+ip-cidr, 172.16.0.0/12, direct
+ip-cidr, 192.168.0.0/16, direct
+ip-cidr, 224.0.0.0/24, direct
+final, Final
+
+
+[rewrite_local]
+^https://ab\.chatgpt\.com/v1/ url script-response-body https://raw.githubusercontent.com/ALANPAN0/clash_rules/master/quantumultx/gpt.js
+## 本地分流规则:相同规则下本地规则优先生效
+
+[task_local]
+
+[http_backend]
+
+[mitm]
